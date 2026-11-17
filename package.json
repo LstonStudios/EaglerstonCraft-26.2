@@ -1,8 +1,8 @@
 {
-  "name": "eaglercraft-26-2-easy-server",
+  "name": "The Lston Eaglercraft Server!",
   "version": "1.3.0",
   "private": true,
-  "description": "Easy Eaglercraft 26.2 server setup using Node.js and Java",
+  "description": "The Lston Eaglercraft Server is a custom Minecraft server implementation that allows players to connect and play Minecraft using the Eaglercraft client. It provides a unique gaming experience with enhanced features and optimizations.",
   "type": "commonjs",
   "engines": {
     "node": ">=20"
