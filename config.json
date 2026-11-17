@@ -6,7 +6,7 @@
   "serverName": "The Lston Eaglercraft Server!",
   "motd": "&9Welcome to The &a&lLstonServer!",
   "gameMode": "survival",
-  "maxPlayers": 30,
+  "maxPlayers": 500,
   "viewDistance": 4,
   "simulationDistance": 3,
   "publicWebSocketUrl": "jubilant-chainsaw-6v94x9qp77jvf5xpp-8081.app.github.dev",

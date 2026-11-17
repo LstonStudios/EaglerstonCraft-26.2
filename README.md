@@ -1,54 +1,29 @@
-# Eaglercraft 26.2 
+# EaglerstonCraft 26.2 
 
 This ZIP lets you run Eaglercraft 26.2 locally. 
 The first launch will download the required server files.
 
-## Requirements
 
-Before starting, make sure you have:
+## Setup
 
-- **Node.js 20 or newer** (with npm)
-- **Java 25 JDK**
-- An strong internet connection for the first setup
-- Around 3 GB of available RAM for the server
+Open this project in a GitHub codespace.
 
-Downloads:
-- [Node.js](https://nodejs.org/)
-- [Eclipse Temurin JDK 25](https://adoptium.net/temurin/releases/?version=25)
-
-## macOS Setup
-
-1. Extract the ZIP file somewhere on your Mac.
-2. Install Node.js and Java 25 if you haven't already.
-3. Double-click `START-MACOS.command` to launch the setup.
-4. If macOS blocks the script, control-click it and select **Open**.
-5. Read and accept the Minecraft EULA when prompted in Terminal.
-
-The launcher will download Paper, Velocity, EaglerXServer, ViaVersion, and ViaBackwards automatically.
-
-You can also start it manually through Terminal:
-
+Then in a new terminal, run:
 ```sh
-npm install
 npm start
 ```
+Then make ports 8080 and 8081 public.
 
-## Windows Setup
+Open port 8080 in a new tab and start play!
 
-1. Extract the ZIP file into a folder.
-2. Make sure Node.js 20+ and Java 25 are installed.
-3. Double-click `START-WINDOWS.bat`.
-4. Follow the instructions in Command Prompt and accept the EULA if you agree to it.
-
-The launcher will handle the rest.
 
 ## Connecting to the Server
 
 Once everything starts, open your browser and visit:
 
-**Game client:** http://localhost:3001
+**Game client:** `http://localhost:8080`
 
-**Multiplayer server:** `ws://localhost:25557/`
+**Multiplayer server:** `ws://localhost:8081/`
 
 **Paper backend:** `127.0.0.1:25566`
 
