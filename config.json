@@ -9,7 +9,7 @@
   "maxPlayers": 500,
   "viewDistance": 4,
   "simulationDistance": 3,
-  "publicWebSocketUrl": "jubilant-chainsaw-6v94x9qp77jvf5xpp-8081.app.github.dev",
+  "publicWebSocketUrl": "wss://jubilant-chainsaw-6v94x9qp77jvf5xpp-8081.app.github.dev/",
   "paperMemoryMin": "512M",
   "paperMemoryMax": "1536M",
   "velocityMemoryMin": "96M",
