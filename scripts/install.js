@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const crypto = require("crypto");
 const {
   ROOT, PROXY, BACKEND, ensureDirs, readConfig, patchClient,
   ensureForwardingSecret, patchVelocityToml, patchPaperVelocity,
@@ -7,6 +8,14 @@ const {
 } = require("./common");
 
 const USER_AGENT = "eaglercraft-26.2-easy-server/1.2 (local server setup)";
+const PAPER_PLUGINS = [
+  { key: "economySystem", name: "EconomySystem", projectId: "zCbXPyE8", fileName: "EconomySystem.jar" },
+  { key: "serverHomes", name: "Server Homes", projectId: "ozgBn9Wz", fileName: "ServerHomes.jar" },
+  { key: "easyTpa", name: "EasyTPA", projectId: "xc9IulMB", fileName: "EasyTPA.jar" },
+  { key: "easyPrefix", name: "EasyPrefixGUI", owner: "Christian34", projectSlug: "EasyPrefixGUI", fileName: "EasyPrefixGUI.jar" },
+  { key: "worldEdit", name: "WorldEdit", projectId: "1u6JkXh5", fileName: "WorldEdit.jar" },
+  { key: "worldGuard", name: "WorldGuard", projectId: "DKY9btbd", fileName: "WorldGuard.jar" }
+];
 
 async function getJson(url) {
   const r = await fetch(url, { headers: { "User-Agent": USER_AGENT, "Accept": "application/json" }, redirect: "follow" });
@@ -14,7 +23,7 @@ async function getJson(url) {
   return r.json();
 }
 
-async function download(url, dest) {
+async function download(url, dest, expected = null) {
   const tmp = `${dest}.download`;
   fs.mkdirSync(path.dirname(dest), { recursive: true });
   console.log(`downloading ${path.basename(dest)}...`);
@@ -22,12 +31,15 @@ async function download(url, dest) {
   if (!r.ok) throw new Error(`Download failed (${r.status}): ${url}`);
   if (!r.body) throw new Error(`No response body: ${url}`);
   const file = fs.createWriteStream(tmp);
+  const hash = expected ? crypto.createHash(expected.algorithm) : null;
   await new Promise((resolve, reject) => {
     const reader = r.body.getReader();
     function pump() {
       reader.read().then(({ done, value }) => {
         if (done) { file.end(resolve); return; }
-        if (!file.write(Buffer.from(value))) file.once("drain", pump);
+        const chunk = Buffer.from(value);
+        if (hash) hash.update(chunk);
+        if (!file.write(chunk)) file.once("drain", pump);
         else pump();
       }).catch(reject);
     }
@@ -35,7 +47,15 @@ async function download(url, dest) {
     pump();
   });
   const stat = fs.statSync(tmp);
-  if (stat.size < 100000) {
+  if (expected && stat.size !== expected.size) {
+    fs.rmSync(tmp, { force: true });
+    throw new Error(`Downloaded file has unexpected size (${stat.size}, expected ${expected.size}): ${url}`);
+  }
+  if (hash && hash.digest("hex") !== expected.hash) {
+    fs.rmSync(tmp, { force: true });
+    throw new Error(`Downloaded file failed ${expected.algorithm.toUpperCase()} verification: ${url}`);
+  }
+  if (!expected && stat.size < 100000) {
     fs.rmSync(tmp, { force: true });
     throw new Error(`Downloaded file is unexpectedly small (${stat.size} bytes): ${url}`);
   }
@@ -83,43 +103,147 @@ async function resolveGitHubRelease(repo, preferredAssetPrefix) {
   return { url: asset.browser_download_url, version: rel.tag_name || rel.name || "latest", asset: asset.name, published: rel.published_at || null };
 }
 
+async function resolveModrinthRelease(projectId, gameVersion, name) {
+  const query = new URLSearchParams({
+    game_versions: JSON.stringify([gameVersion]),
+    loaders: JSON.stringify(["paper"])
+  });
+  const versions = await getJson(`https://api.modrinth.com/v2/project/${projectId}/version?${query}`);
+  if (!Array.isArray(versions)) throw new Error(`Unexpected Modrinth versions response for ${name}`);
+
+  const release = versions.find(v =>
+    v.version_type === "release" &&
+    Array.isArray(v.game_versions) && v.game_versions.includes(gameVersion) &&
+    Array.isArray(v.loaders) && v.loaders.includes("paper")
+  );
+  if (!release) throw new Error(`No stable Paper release of ${name} supports Minecraft ${gameVersion}`);
+  const file = Array.isArray(release.files) && (release.files.find(f => f.primary && /\.jar$/i.test(f.filename)) ||
+    release.files.find(f => /\.jar$/i.test(f.filename)));
+  if (!file || !file.url || !Number.isSafeInteger(file.size) || !/^[a-f0-9]{128}$/i.test(file.hashes && file.hashes.sha512 || "")) {
+    throw new Error(`Modrinth release for ${name} is missing a verifiable JAR`);
+  }
+  return {
+    url: file.url,
+    version: release.version_number,
+    release: release.name,
+    projectId,
+    modrinthVersionId: release.id,
+    published: release.date_published,
+    asset: file.filename,
+    size: file.size,
+    hashAlgorithm: "sha512",
+    hash: file.hashes.sha512
+  };
+}
+
+async function resolveHangarRelease(owner, slug, gameVersion, name) {
+  const query = new URLSearchParams({ platform: "PAPER", limit: "100" });
+  const versions = await getJson(`https://hangar.papermc.io/api/v1/projects/${encodeURIComponent(owner)}/${encodeURIComponent(slug)}/versions?${query}`);
+  if (!versions || !Array.isArray(versions.result)) throw new Error(`Unexpected Hangar versions response for ${name}`);
+
+  const release = versions.result.find(v =>
+    v.visibility === "public" &&
+    v.channel && v.channel.name === "Release" &&
+    Array.isArray(v.platformDependencies && v.platformDependencies.PAPER) &&
+    v.platformDependencies.PAPER.includes(gameVersion)
+  );
+  if (!release) throw new Error(`No stable Paper release of ${name} supports Minecraft ${gameVersion}`);
+  const downloadInfo = release.downloads && release.downloads.PAPER;
+  const file = downloadInfo && downloadInfo.fileInfo;
+  if (!downloadInfo || !downloadInfo.downloadUrl || !file ||
+      !Number.isSafeInteger(file.sizeBytes) || !/^[a-f0-9]{64}$/i.test(file.sha256Hash || "")) {
+    throw new Error(`Hangar release for ${name} is missing a verifiable JAR`);
+  }
+  return {
+    url: downloadInfo.downloadUrl,
+    version: release.name,
+    release: release.name,
+    owner,
+    projectSlug: slug,
+    published: release.createdAt,
+    asset: file.name,
+    size: file.sizeBytes,
+    hashAlgorithm: "sha256",
+    hash: file.sha256Hash
+  };
+}
+
 async function ensureArtifact(file, resolver, versions, key) {
   if (fs.existsSync(file)) {
     console.log(`${path.basename(file)} already present`);
     return;
   }
   const info = await resolver();
-  await download(info.url, file);
+  const expected = info.size && info.hashAlgorithm && info.hash
+    ? { size: info.size, algorithm: info.hashAlgorithm, hash: info.hash }
+    : null;
+  await download(info.url, file, expected);
   versions[key] = info;
+}
+
+function removeReplacedPlugins() {
+  for (const fileName of ["DZEconomy.jar", "NameColor.jar"]) {
+    const file = path.join(BACKEND, "plugins", fileName);
+    if (!fs.existsSync(file)) continue;
+    fs.rmSync(file);
+    console.log(`removed ${path.relative(ROOT, file)}`);
+  }
+}
+
+async function installPaperPlugins(cfg, versions) {
+  for (const plugin of PAPER_PLUGINS) {
+    await ensureArtifact(
+      path.join(BACKEND, "plugins", plugin.fileName),
+      () => plugin.projectId
+        ? resolveModrinthRelease(plugin.projectId, cfg.minecraftVersion, plugin.name)
+        : resolveHangarRelease(plugin.owner, plugin.projectSlug, cfg.minecraftVersion, plugin.name),
+      versions,
+      plugin.key
+    );
+  }
+  removeReplacedPlugins();
 }
 
 async function main() {
   ensureDirs();
   const cfg = readConfig();
-  patchClient(cfg);
-  ensureForwardingSecret();
   const versions = {};
+  const pluginsOnly = process.argv.includes("--plugins-only");
 
-  await ensureArtifact(path.join(BACKEND, "paper.jar"), () => resolvePaper(cfg.minecraftVersion), versions, "paper");
-  await ensureArtifact(path.join(PROXY, "velocity.jar"), resolveVelocity, versions, "velocity");
-  await ensureArtifact(path.join(PROXY, "plugins", "EaglerXServer.jar"), () => resolveGitHubRelease("lax1dude/eaglerxserver", "EaglerXServer"), versions, "eaglerXServer");
-  await ensureArtifact(path.join(PROXY, "plugins", "ViaVersion.jar"), () => resolveGitHubRelease("ViaVersion/ViaVersion", "ViaVersion"), versions, "viaVersion");
-  await ensureArtifact(path.join(PROXY, "plugins", "ViaBackwards.jar"), () => resolveGitHubRelease("ViaVersion/ViaBackwards", "ViaBackwards"), versions, "viaBackwards");
+  if (!pluginsOnly) {
+    patchClient(cfg);
+    ensureForwardingSecret();
+    await ensureArtifact(path.join(BACKEND, "paper.jar"), () => resolvePaper(cfg.minecraftVersion), versions, "paper");
+    await ensureArtifact(path.join(PROXY, "velocity.jar"), resolveVelocity, versions, "velocity");
+    await ensureArtifact(path.join(PROXY, "plugins", "EaglerXServer.jar"), () => resolveGitHubRelease("lax1dude/eaglerxserver", "EaglerXServer"), versions, "eaglerXServer");
+    await ensureArtifact(path.join(PROXY, "plugins", "ViaVersion.jar"), () => resolveGitHubRelease("ViaVersion/ViaVersion", "ViaVersion"), versions, "viaVersion");
+    await ensureArtifact(path.join(PROXY, "plugins", "ViaBackwards.jar"), () => resolveGitHubRelease("ViaVersion/ViaBackwards", "ViaBackwards"), versions, "viaBackwards");
+  }
 
-  patchVelocityToml(cfg);
-  patchPaperVelocity();
-  patchViaVersionConfig(cfg);
-  patchEaglerConfigs(cfg);
+  await installPaperPlugins(cfg, versions);
+
+  if (!pluginsOnly) {
+    patchVelocityToml(cfg);
+    patchPaperVelocity();
+    patchViaVersionConfig(cfg);
+    patchEaglerConfigs(cfg);
+  }
 
   const versionsPath = path.join(ROOT, "runtime", "versions.json");
   let existing = {};
   try { existing = JSON.parse(fs.readFileSync(versionsPath, "utf8")); } catch (_) {}
+  delete existing.dzEconomy;
+  delete existing.nameColor;
   fs.writeFileSync(versionsPath, JSON.stringify({ ...existing, ...versions, installedAt: new Date().toISOString() }, null, 2) + "\n");
 
-  console.log("\nsetup complete");
-  console.log("stack: EaglerXServer + ViaVersion + ViaBackwards + Velocity + Paper 26.2");
-  console.log(`ViaVersion backend protocol pinned to ${Number(cfg.backendProtocol || 776)}`);
-  console.log("next: npm start");
+  if (pluginsOnly) {
+    console.log("\nPaper plugins installed");
+  } else {
+    console.log("\nsetup complete");
+    console.log("stack: EaglerXServer + ViaVersion + ViaBackwards + Velocity + Paper 26.2");
+    console.log(`ViaVersion backend protocol pinned to ${Number(cfg.backendProtocol || 776)}`);
+    console.log("next: npm start");
+  }
 }
 
 main().catch(err => {

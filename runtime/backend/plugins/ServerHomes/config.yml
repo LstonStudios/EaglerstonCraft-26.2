@@ -1,0 +1,27 @@
+home:
+  max_homes: 3
+  max_homes_vip: 5
+  enable_sounds: true
+  enable_message: true # enables the countdown message
+
+  confirmation:
+    timeout_seconds: 30 # players with the vip permission skip this
+    enable_delete_confirm: true
+    enable_overwrite_confirm: true
+
+  teleport:
+    delay_seconds: 5
+    cooldown_seconds: 10
+    cancel_events:
+      movement: true
+      damage: true
+      attack: true
+      inventory: false # Does not toggle when players open their own inventory, only chests, villagers, etc.
+      interact: false
+
+  admin:
+    allow_cross_world_teleportation: true
+    blocked_worlds:
+      # - world_nether
+      # - world_end
+      # - world

@@ -1,0 +1,228 @@
+############################################################
+# +------------------------------------------------------+ #
+# |                     - Config -                       | #
+# |               Plugin by Christian34	  	      	     | #
+# +------------------------------------------------------+ #
+############################################################
+
+config:
+  enabled: true
+  # how players type in texts (e.g. a custom prefix or in the setup GUI)
+  # dialog: a window with a text field that contains the current value and a preview
+  # chat: the text is written into the chat ("quit" cancels) - for clients that can't show dialogs (e.g. older versions with ViaBackwards)
+  text-input: dialog
+  # connect multiple servers
+  sql:
+    enabled: false
+    host: localhost
+    port: 3306
+    database: EasyPrefix
+    username: username
+    password: password
+    table-prefix: ep
+    # use the local storage (groups.yml, storage.db) if mysql is not reachable on start or reload, instead of disabling
+    # the plugin - changes made meanwhile are only saved on this server
+    fallback-to-local: true
+  # allow easyprefix to set join and quit messages
+  # messages can be changed in 'groups.yml'
+  join-quit-messages:
+    # let easyprefix manage join and quit messages
+    enabled: true
+    # hide join/quit messages
+    hide-messages: false
+  user:
+    # allow players to create custom prefixes and suffixes
+    # requires permission EasyPrefix.custom.prefix or EasyPrefix.custom.suffix
+    # EasyPrefix.custom.gui shows icon in /ep settings
+    custom-layout:
+      enabled: true
+      # cool down for changing prefix or suffix in hours
+      # can be bypassed with permission EasyPrefix.custom.bypass
+      cooldown: 0.5
+      # blacklist can be bypassed with permission Easyprefix.custom.blacklist
+      blacklist:
+      - Admin
+      - Owner
+      - '&4'
+      alias:
+        # requires permission EasyPrefix.custom.prefix
+        prefix: /prefix
+        # requires permission EasyPrefix.custom.suffix
+        suffix: /suffix
+  # tags are additional titles players can switch between (/tags)
+  # they are shown where %ep_tag_prefix% or %ep_tag_suffix% is used, e.g. in the prefix of a group (groups.yml)
+  tags:
+    # show context menu for tags | only visible if necessary
+    enabled: true
+  # prefixes and suffixes outside of the chat
+  # a disabled feature is not touched at all, so another plugin (e.g. TAB) can manage it
+  display:
+    # show prefix and suffix in the tab list
+    tab-list: true
+    # sort the tab list by the priority of the groups (groups.yml, higher first)
+    sort-tab-list: true
+    # show prefix and suffix above the heads of players
+    # uses teams of the main scoreboard - disable it if another plugin manages name tags
+    name-tags: true
+    # layouts: {prefix}, {name} and {suffix} of the player, colors and placeholders (e.g. %ep_tag_prefix%)
+    # the suffix is left out by default, as it usually ends with the separator of the chat (e.g. ":")
+    tab-list-layout: '{prefix}{name}'
+    # text before and after the name above the heads ("" = nothing), the name itself can't be changed
+    name-tag-prefix: '{prefix}'
+    name-tag-suffix: ''
+    # seconds between updates, needed for placeholders of other plugins (0 = only update on changes)
+    update-interval: 5
+    # worlds in which EasyPrefix leaves the tab list (and name tags) alone, e.g. minigame worlds
+    # supports * as wildcard, case-insensitive
+    excluded-worlds:
+    - ctb_*
+  # settings for chat appearance
+  chat:
+    # set to false if another plugin (e.g. EssentialsChat, VentureChat) formats the chat - it can show the prefixes
+    # of EasyPrefix with Vault or the PlaceholderAPI placeholders (%ep_user_prefix%, ...)
+    handle-chat: true
+    # hovering over the name of a player in the chat shows the hover text of the group (groups.yml)
+    name-hover: true
+    # clicking on the name of a player in the chat writes this command into the chat box (empty = nothing)
+    # %player% is the name of the player
+    name-click: '/msg %player% '
+    # date format of %ep_user_first_join% in the hover (e.g. dd.MM.yyyy or MM/dd/yyyy)
+    date-format: dd.MM.yyyy
+    # mention players with @name in the chat
+    # players can turn off being pinged for themselves (/ep settings or /ep mentions)
+    mentions:
+      enabled: true
+      # how @name looks for the other players ({name} = name of the mentioned player)
+      format: <aqua>@{name}</aqua>
+      # how the mention looks for the mentioned player
+      highlight: <yellow><bold>@{name}</bold></yellow>
+      # shown in front of the chat line, only for the mentioned player ("" = nothing)
+      line-prefix: '<gold><bold>»</bold></gold> '
+      # sound for the mentioned player ("" = no sound), see https://minecraft.wiki/w/Sounds.json
+      sound: entity.experience_orb.pickup
+      volume: 1.0
+      pitch: 1.0
+    # item shown for each color in the color menu (/color):
+    # wool, glass, dye - closest of the 16 minecraft colors
+    # leather, firework_star - exact hex color
+    # book - no color (also used if the value is invalid)
+    color-icon: wool
+    colors:
+      black:
+        display-name: Black
+        hex: '#000000'
+        code: '0'
+        # set default to true to allow all users to use certain color. you won't need any further permission system
+        default: false
+      dark_blue:
+        display-name: Dark Blue
+        hex: '#0000aa'
+        code: '1'
+      #default: true
+      dark_green:
+        display-name: Dark Green
+        hex: '#00aa00'
+        code: '2'
+      dark_aqua:
+        display-name: Dark Aqua
+        hex: '#00aaaa'
+        code: '3'
+      dark_red:
+        display-name: Dark Red
+        hex: '#aa0000'
+        code: '4'
+      dark_purple:
+        display-name: Dark Purple
+        hex: '#aa00aa'
+        code: '5'
+      gold:
+        display-name: Gold
+        hex: '#FFAA00'
+        code: '6'
+      gray:
+        display-name: Gray
+        hex: '#AAAAAA'
+        code: '7'
+      dark_gray:
+        display-name: Dark Gray
+        hex: '#555555'
+        code: '8'
+      blue:
+        display-name: Blue
+        hex: '#5555FF'
+        code: '9'
+      green:
+        display-name: Green
+        hex: '#55FF55'
+        code: a
+      aqua:
+        display-name: Aqua
+        hex: '#55FFFF'
+        code: b
+      red:
+        display-name: Red
+        hex: '#ff5555'
+        code: c
+      light_purple:
+        display-name: Light Purple
+        hex: '#FF55FF'
+        code: d
+      yellow:
+        display-name: Yellow
+        hex: '#FFFF55'
+        code: e
+      white:
+        display-name: White
+        hex: '#ffffff'
+        code: f
+      # effects: instead of "hex" a single MiniMessage tag around the whole text, e.g. gradient, rainbow,
+      # transition or pride (https://docs.papermc.io/adventure/minimessage/format/)
+      # players only get this effect (permission easyprefix.color.<name>), not every gradient
+      # "hex" is optional here, it is only the color of the icon in the color menu (default: the first color)
+      rainbow:
+        display-name: Rainbow
+        tag: <rainbow>
+      sunset:
+        display-name: Sunset
+        tag: <gradient:#ff5555:#ffaa00>
+      ocean:
+        display-name: Ocean
+        tag: <gradient:#55ffff:#5555ff>
+      toxic:
+        display-name: Toxic
+        tag: <gradient:#55ff55:#ffff55>
+      candy:
+        display-name: Candy
+        tag: <gradient:#ff55ff:#55ffff>
+      fire:
+        display-name: Fire
+        tag: <gradient:#ffff55:#ff5555:#aa0000>
+      ice:
+        display-name: Ice
+        tag: <gradient:#ffffff:#55ffff:#5555ff>
+      pride:
+        display-name: Pride
+        tag: <pride>
+    decorations:
+      bold:
+        display-name: Bold
+      #default: true
+      underlined:
+        display-name: Underlined
+      italic:
+        display-name: Italic
+      strikethrough:
+        display-name: Strikethrough
+      obfuscated:
+        display-name: Obfuscated
+      # effects like for colors: a single MiniMessage tag around the whole text, e.g. a shadow
+      # <shadow:color:opacity> (opacity 0-1) or <!shadow> for no shadow
+      glow:
+        display-name: Glow
+        tag: <shadow:gold:0.6>
+      neon:
+        display-name: Neon
+        tag: <shadow:aqua:0.6>
+      no_shadow:
+        display-name: No Shadow
+        tag: <!shadow>

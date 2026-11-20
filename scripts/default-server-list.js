@@ -81,9 +81,12 @@
       let found = false;
       for (let i = 0; i < entries.length; i++) {
         const ip = entries[i].find(tag => tag.type === 8 && tag.name === "ip");
-        if (!ip) continue;
+        const name = entries[i].find(tag => tag.type === 8 && tag.name === "name");
+        if (!ip || !name) continue;
         offset = ip.payload;
-        if (string() !== server.addr) continue;
+        const address = string();
+        offset = name.payload;
+        if (address !== server.addr && string() !== server.name) continue;
         entries[i] = entries[i].filter(tag => !["name", "ip", "hidden", "connectionMode"].includes(tag.name));
         entries[i].push({ raw: textTag("name", server.name) }, { raw: textTag("ip", server.addr) },
           { raw: join([new Uint8Array([1]), utf("hidden"), new Uint8Array([0])]) },

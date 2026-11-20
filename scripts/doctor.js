@@ -23,13 +23,25 @@ const {
     velocity: path.join(PROXY, "velocity.jar"),
     eagler: path.join(PROXY, "plugins", "EaglerXServer.jar"),
     via: path.join(PROXY, "plugins", "ViaVersion.jar"),
-    backwards: path.join(PROXY, "plugins", "ViaBackwards.jar")
+    backwards: path.join(PROXY, "plugins", "ViaBackwards.jar"),
+    economy: path.join(BACKEND, "plugins", "EconomySystem.jar"),
+    homes: path.join(BACKEND, "plugins", "ServerHomes.jar"),
+    tpa: path.join(BACKEND, "plugins", "EasyTPA.jar"),
+    easyPrefix: path.join(BACKEND, "plugins", "EasyPrefixGUI.jar"),
+    worldEdit: path.join(BACKEND, "plugins", "WorldEdit.jar"),
+    worldGuard: path.join(BACKEND, "plugins", "WorldGuard.jar")
   };
   add("Paper JAR", fs.existsSync(paths.paper), path.relative(ROOT, paths.paper));
   add("Velocity JAR", fs.existsSync(paths.velocity), path.relative(ROOT, paths.velocity));
   add("EaglerXServer JAR", fs.existsSync(paths.eagler), path.relative(ROOT, paths.eagler));
   add("ViaVersion JAR", fs.existsSync(paths.via), path.relative(ROOT, paths.via));
   add("ViaBackwards JAR", fs.existsSync(paths.backwards), path.relative(ROOT, paths.backwards));
+  add("EconomySystem plugin", fs.existsSync(paths.economy), path.relative(ROOT, paths.economy));
+  add("Server Homes plugin", fs.existsSync(paths.homes), path.relative(ROOT, paths.homes));
+  add("EasyTPA plugin", fs.existsSync(paths.tpa), path.relative(ROOT, paths.tpa));
+  add("EasyPrefixGUI plugin", fs.existsSync(paths.easyPrefix), path.relative(ROOT, paths.easyPrefix));
+  add("WorldEdit plugin", fs.existsSync(paths.worldEdit), path.relative(ROOT, paths.worldEdit));
+  add("WorldGuard plugin", fs.existsSync(paths.worldGuard), path.relative(ROOT, paths.worldGuard));
 
   const listener = [...walkFiles(path.join(PROXY, "plugins"), "listeners.toml"), ...walkFiles(path.join(PROXY, "plugins"), "listeners.cfg")];
   add("EaglerXServer listener", listener.length > 0, listener.length ? path.relative(ROOT, listener[0]) : "missing");

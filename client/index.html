@@ -885,7 +885,7 @@ Z12aSGrXHoYwXux247w3UelvBftWMZo0Wlbr3iVBUh8E3CfkL+41ZHFc3Qbaqn8YqSFHaWIH21A2KQEL
 		window.eaglercraftXOpts = {
 			container: "game_frame",
 			/* NUPER_SERVER_CONFIG_START */
-			servers: [{ name: "The Lston Eaglercraft Server!", addr: "wss://jubilant-chainsaw-6v94x9qp77jvf5xpp-8081.app.github.dev/" }],
+			servers: [{ name: "The Lston Eaglercraft Server!", addr: (location.protocol === "https:" ? "wss://" : "ws://") + (location.hostname.match(/-\d+\.app\.github\.dev$/) ? location.hostname.replace(/-\d+\.app\.github\.dev$/, "-8081.app.github.dev") : location.hostname + ":8081") + "/" }],
 			/* NUPER_SERVER_CONFIG_END */
 			assetsURI: [
 				{ url: "assets.epk?v=21b0a73c5a7f5526", path: "" },
@@ -1170,9 +1170,12 @@ var TeaVM=TeaVM||{};TeaVM.wasmGC=TeaVM.wasmGC||(()=>{let n=new Map;let e=null;le
       let found = false;
       for (let i = 0; i < entries.length; i++) {
         const ip = entries[i].find(tag => tag.type === 8 && tag.name === "ip");
-        if (!ip) continue;
+        const name = entries[i].find(tag => tag.type === 8 && tag.name === "name");
+        if (!ip || !name) continue;
         offset = ip.payload;
-        if (string() !== server.addr) continue;
+        const address = string();
+        offset = name.payload;
+        if (address !== server.addr && string() !== server.name) continue;
         entries[i] = entries[i].filter(tag => !["name", "ip", "hidden", "connectionMode"].includes(tag.name));
         entries[i].push({ raw: textTag("name", server.name) }, { raw: textTag("ip", server.addr) },
           { raw: join([new Uint8Array([1]), utf("hidden"), new Uint8Array([0])]) },

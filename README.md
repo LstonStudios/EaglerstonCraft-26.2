@@ -31,7 +31,7 @@ The local multiplayer server should already be added to your server list.
 
 Keep the Terminal or Command Prompt window open while playing. Closing it will stop the server.
 
-If you want friends to connect over the internet, you'll need to host the web client and WebSocket endpoint publicly. Update `publicWebSocketUrl` in `config.json` with your public `wss://` address.
+The client automatically connects to the WebSocket server on port 8081. In GitHub Codespaces, it derives the matching forwarded server hostname from the client page's port-8080 hostname. Set `publicWebSocketUrl` in `config.json` only if you want to use a different public `wss://` address.
 
 ## Configuration
 
@@ -43,6 +43,22 @@ Most server settings can be changed in `config.json`, including:
 - Server ports
 
 Survival mode is enabled by default.
+
+## Server Plugins
+
+The Paper backend includes these plugins, selected for Minecraft 26.2:
+
+- **EconomySystem** — simple `/balance` and `/pay <player> <amount>` commands
+- **Server Homes** — `/sethome`, `/delhome`, and `/homes`
+- **EasyTPA** — teleport requests with `/tpa`, `/tpaccept`, and `/tpdeny`
+- **EasyPrefixGUI** — in-game GUI for prefixes, chat colors, tab names, and nametags
+- **WorldEdit** and **WorldGuard** — official EngineHub building and region-protection tools
+
+The normal setup installs these automatically. To install or refresh only the Paper plugins without changing server configuration, run:
+
+```sh
+npm run setup -- --plugins-only
+```
 
 ## Stopping the Server
 

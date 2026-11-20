@@ -102,7 +102,7 @@ function patchClient(cfg) {
   }
   const addr = cfg.publicWebSocketUrl && String(cfg.publicWebSocketUrl).trim()
     ? escapeJsString(String(cfg.publicWebSocketUrl).trim())
-    : `(location.protocol === "https:" ? "wss://" : "ws://") + location.hostname + ":${Number(cfg.eaglerPort)}/"`;
+    : `(location.protocol === "https:" ? "wss://" : "ws://") + (location.hostname.match(/-\\d+\\.app\\.github\\.dev$/) ? location.hostname.replace(/-\\d+\\.app\\.github\\.dev$/, "-${Number(cfg.eaglerPort)}.app.github.dev") : location.hostname + ":${Number(cfg.eaglerPort)}") + "/"`;
   const block = `${start}\n\t\t\tservers: [{ name: ${escapeJsString(cfg.serverName)}, addr: ${addr} }],\n\t\t\t${end}`;
   html = html.slice(0, a) + block + html.slice(b + end.length);
   const helperStart = "/* NUPER_DEFAULT_SERVER_STORAGE_START */";
