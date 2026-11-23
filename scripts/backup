@@ -1,0 +1,16 @@
+#!/usr/bin/env node
+const { createBackup } = require("./backups");
+
+const name = process.argv.slice(2).join(" ").trim();
+if (!name) {
+  console.error("Usage: backup [name]");
+  process.exit(1);
+}
+try {
+  const backup = createBackup(name);
+  console.log(`Backup created: ${backup.name}`);
+  console.log(`Location: backups/${backup.folderName}`);
+} catch (error) {
+  console.error(`Backup failed: ${error.message}`);
+  process.exit(1);
+}

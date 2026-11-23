@@ -1,0 +1,87 @@
+{
+  "stats": {
+    "minecraft:used": {
+      "minecraft:wooden_axe": 33,
+      "minecraft:crafting_table": 1,
+      "minecraft:cooked_rabbit": 3,
+      "minecraft:wooden_pickaxe": 28,
+      "minecraft:brown_mushroom": 2,
+      "minecraft:torch": 1,
+      "minecraft:stone_pickaxe": 44,
+      "minecraft:written_book": 2,
+      "minecraft:cobblestone": 38
+    },
+    "minecraft:picked_up": {
+      "minecraft:carrot": 10,
+      "minecraft:diorite": 5,
+      "minecraft:dirt": 13,
+      "minecraft:birch_sapling": 2,
+      "minecraft:cobblestone": 47,
+      "minecraft:gravel": 1,
+      "minecraft:beef": 2,
+      "minecraft:andesite": 6,
+      "minecraft:brown_mushroom": 2,
+      "minecraft:coal": 8,
+      "minecraft:oak_log": 6,
+      "minecraft:potato": 27,
+      "minecraft:birch_log": 7,
+      "minecraft:wheat_seeds": 79,
+      "minecraft:wheat": 24
+    },
+    "minecraft:killed": {
+      "minecraft:horse": 1,
+      "minecraft:cow": 1,
+      "minecraft:wolf": 1
+    },
+    "minecraft:crafted": {
+      "minecraft:torch": 4,
+      "minecraft:stick": 8,
+      "minecraft:wooden_axe": 1,
+      "minecraft:wooden_pickaxe": 1,
+      "minecraft:oak_planks": 24,
+      "minecraft:birch_planks": 28,
+      "minecraft:stone_pickaxe": 1,
+      "minecraft:crafting_table": 1
+    },
+    "minecraft:custom": {
+      "minecraft:interact_with_crafting_table": 3,
+      "minecraft:time_since_rest": 44139,
+      "minecraft:walk_one_cm": 115301,
+      "minecraft:leave_game": 1,
+      "minecraft:mob_kills": 3,
+      "minecraft:damage_taken": 50,
+      "minecraft:play_time": 44139,
+      "minecraft:damage_dealt": 394,
+      "minecraft:jump": 320,
+      "minecraft:time_since_death": 44139,
+      "minecraft:open_enderchest": 2,
+      "minecraft:sprint_one_cm": 41766,
+      "minecraft:open_chest": 8,
+      "minecraft:fall_one_cm": 8125,
+      "minecraft:total_world_time": 44139,
+      "minecraft:fly_one_cm": 48727,
+      "minecraft:walk_on_water_one_cm": 572,
+      "minecraft:crouch_one_cm": 324,
+      "minecraft:sneak_time": 66
+    },
+    "minecraft:mined": {
+      "minecraft:dirt": 11,
+      "minecraft:andesite": 6,
+      "minecraft:diorite": 5,
+      "minecraft:coal_ore": 8,
+      "minecraft:grass_block": 2,
+      "minecraft:wheat": 28,
+      "minecraft:carrots": 2,
+      "minecraft:cobblestone": 1,
+      "minecraft:gravel": 1,
+      "minecraft:short_grass": 2,
+      "minecraft:brown_mushroom": 2,
+      "minecraft:oak_leaves": 8,
+      "minecraft:potatoes": 7,
+      "minecraft:birch_log": 7,
+      "minecraft:oak_log": 6,
+      "minecraft:stone": 46
+    }
+  },
+  "DataVersion": 4903
+}

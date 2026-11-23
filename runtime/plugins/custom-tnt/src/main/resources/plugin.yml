@@ -1,0 +1,14 @@
+name: CustomTNT
+main: com.lston.customtnt.CustomTNTPlugin
+version: 1.0.0
+api-version: '1.21'
+folia-supported: true
+commands:
+  customtnt:
+    description: Give a custom TNT item
+    usage: /customtnt <@a,@s,@r,etc> <heavy|fire|lightning|x-ray|black-hole> [amount]
+    aliases: [tnt]
+    permission: customtnt.give
+permissions:
+  customtnt.give:
+    default: op

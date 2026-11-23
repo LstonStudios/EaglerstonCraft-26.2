@@ -1,0 +1,55 @@
+#!/usr/bin/env node
+const readline = require("readline");
+const { listBackups, findBackup, restoreBackup } = require("./backups");
+
+function printList(backups) {
+  if (!backups.length) {
+    console.log("No backups found.");
+    return;
+  }
+  console.log("Backups (newest to oldest):");
+  backups.forEach((backup, index) => {
+    const date = backup.createdAt ? new Date(backup.createdAt).toLocaleString() : "Unknown date";
+    console.log(`${index + 1}. ${backup.name} - ${date}`);
+  });
+}
+
+async function main() {
+  const requested = process.argv.slice(2).join(" ").trim();
+  const backups = listBackups();
+  if (!backups.length) {
+    printList(backups);
+    return;
+  }
+
+  let backup = requested ? findBackup(requested) : null;
+  if (requested && !backup) {
+    console.error(`Backup not found: ${requested}`);
+    printList(backups);
+    process.exitCode = 1;
+    return;
+  }
+
+  if (!backup) {
+    printList(backups);
+    const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+    const answer = (await rl.question("Restore backup number: ")).trim();
+    rl.close();
+    backup = findBackup(answer);
+    if (!backup) {
+      console.error("Invalid backup selection.");
+      process.exitCode = 1;
+      return;
+    }
+  }
+
+  try {
+    restoreBackup(backup);
+    console.log(`Restored backup: ${backup.name}`);
+  } catch (error) {
+    console.error(`Restore failed: ${error.message}`);
+    process.exitCode = 1;
+  }
+}
+
+main();

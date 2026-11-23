@@ -12,6 +12,12 @@
     "setup": "node scripts/install.js",
     "start": "node scripts/start.js",
     "doctor": "node scripts/doctor.js",
-    "client": "node scripts/client-only.js"
+    "client": "node scripts/client-only.js",
+    "backup": "node scripts/backup",
+    "loadbackup": "node scripts/loadbackup"
+  },
+  "bin": {
+    "backup": "./scripts/backup",
+    "loadbackup": "./scripts/loadbackup"
   }
 }

@@ -60,6 +60,22 @@ The normal setup installs these automatically. To install or refresh only the Pa
 npm run setup -- --plugins-only
 ```
 
+## Server Backups
+
+While `npm start` is running, use these commands in the same terminal:
+
+```sh
+backup [name]
+loadbackup [name]
+```
+
+`backup [name]` saves the server world and configuration into the `backups/` folder.
+Running `loadbackup` with no name shows the backups from newest to oldest; type its number to restore it.
+You can also type `loadbackup [name]` or `loadbackup [number]` to restore directly.
+The `backups/` folder is at the project root. Drop `.tar.gz` backup files into it; world archives containing `level.dat` and full runtime backups are listed and can be restored the same way.
+
+The standalone commands `npm run backup -- [name]` and `npm run loadbackup -- [name]` are available too.
+
 ## Stopping the Server
 
 To shut everything down, press `Ctrl+C` in the launcher window.

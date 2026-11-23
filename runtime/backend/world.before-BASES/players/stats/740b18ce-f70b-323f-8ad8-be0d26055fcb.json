@@ -1,0 +1,102 @@
+{
+  "stats": {
+    "minecraft:custom": {
+      "minecraft:interact_with_crafting_table": 11,
+      "minecraft:time_since_rest": 403,
+      "minecraft:walk_one_cm": 413937,
+      "minecraft:leave_game": 17,
+      "minecraft:mob_kills": 1,
+      "minecraft:damage_taken": 2898,
+      "minecraft:play_time": 204149,
+      "minecraft:damage_dealt": 474,
+      "minecraft:jump": 1906,
+      "minecraft:time_since_death": 27948,
+      "minecraft:drop": 22,
+      "minecraft:interact_with_furnace": 17,
+      "minecraft:sprint_one_cm": 98810,
+      "minecraft:open_chest": 41,
+      "minecraft:fall_one_cm": 48900,
+      "minecraft:total_world_time": 403,
+      "minecraft:fly_one_cm": 126317,
+      "minecraft:walk_on_water_one_cm": 3138,
+      "minecraft:deaths": 7,
+      "minecraft:player_kills": 2
+    },
+    "minecraft:mined": {
+      "minecraft:redstone_ore": 20,
+      "minecraft:dirt": 106,
+      "minecraft:gold_ore": 7,
+      "minecraft:coal_ore": 91,
+      "minecraft:cobblestone": 17,
+      "minecraft:carved_pumpkin": 3,
+      "minecraft:gravel": 30,
+      "minecraft:wall_torch": 18,
+      "minecraft:diamond_ore": 6,
+      "minecraft:oak_leaves": 6,
+      "minecraft:oak_log": 25,
+      "minecraft:obsidian": 15,
+      "minecraft:dead_bush": 2,
+      "minecraft:iron_ore": 31,
+      "minecraft:stone": 495
+    },
+    "minecraft:crafted": {
+      "minecraft:furnace": 1,
+      "minecraft:iron_ingot": 11,
+      "minecraft:jack_o_lantern": 3,
+      "minecraft:chest": 2,
+      "minecraft:gold_ingot": 23,
+      "minecraft:diamond_chestplate": 1,
+      "minecraft:wooden_shovel": 1
+    },
+    "minecraft:dropped": {
+      "minecraft:obsidian": 10,
+      "minecraft:diamond": 1,
+      "minecraft:gold_ore": 12,
+      "minecraft:dirt": 17,
+      "minecraft:ink_sac": 16
+    },
+    "minecraft:broken": {
+      "minecraft:wooden_shovel": 1
+    },
+    "minecraft:used": {
+      "minecraft:iron_pickaxe": 18,
+      "minecraft:gravel": 25,
+      "minecraft:oak_log": 24,
+      "minecraft:cobblestone": 104,
+      "minecraft:wooden_shovel": 61,
+      "minecraft:stone": 4,
+      "minecraft:water_bucket": 15,
+      "minecraft:diamond_pickaxe": 743,
+      "minecraft:golden_sword": 10,
+      "minecraft:chest": 2,
+      "minecraft:carved_pumpkin": 3,
+      "minecraft:furnace": 1,
+      "minecraft:torch": 61,
+      "minecraft:bread": 23,
+      "minecraft:dirt": 100
+    },
+    "minecraft:picked_up": {
+      "minecraft:carved_pumpkin": 3,
+      "minecraft:ink_sac": 16,
+      "minecraft:dirt": 76,
+      "minecraft:stick": 1,
+      "minecraft:cobblestone": 489,
+      "minecraft:oak_planks": 176,
+      "minecraft:flint": 3,
+      "minecraft:stone": 28,
+      "minecraft:gravel": 35,
+      "minecraft:redstone": 85,
+      "minecraft:torch": 47,
+      "minecraft:diamond_pickaxe": 1,
+      "minecraft:iron_ingot": 2,
+      "minecraft:written_book": 1,
+      "minecraft:gold_ore": 21,
+      "minecraft:coal": 134,
+      "minecraft:oak_log": 23,
+      "minecraft:obsidian": 11,
+      "minecraft:iron_ore": 31,
+      "minecraft:diamond": 18
+    }
+  },
+  "DataVersion": 4903
+}

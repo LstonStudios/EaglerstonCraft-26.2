@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 color_done_output() {
   sed --unbuffered -E 's/(Done \([^)]*\)!?)/\x1b[1;32m\1\x1b[0m/'
 }

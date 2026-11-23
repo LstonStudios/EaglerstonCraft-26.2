@@ -10,6 +10,7 @@ const {
   patchPaperVelocity, patchViaVersionConfig, walkFiles, portInUse
 } = require("./common");
 const { createClientServer } = require("./client-server");
+const { createBackup, listBackups, findBackup, restoreBackup } = require("./backups");
 
 function prefixLines(stream, prefix) {
   let pending = "";
@@ -189,7 +190,7 @@ async function bootstrapPaperIfNeeded(cfg, javaExecutable) {
   const children = [];
 
   console.log("\nstarting Paper 26.2...");
-  const paper = spawn(javaExecutable, [`-Xms${cfg.paperMemoryMin}`, `-Xmx${cfg.paperMemoryMax}`, "-jar", "paper.jar", "--nogui"], {
+  let paper = spawn(javaExecutable, [`-Xms${cfg.paperMemoryMin}`, `-Xmx${cfg.paperMemoryMax}`, "-jar", "paper.jar", "--nogui"], {
     cwd: BACKEND, stdio: ["pipe", "pipe", "pipe"]
   });
   children.push({ child: paper, stop: "stop\n", name: "paper" });
@@ -203,7 +204,7 @@ async function bootstrapPaperIfNeeded(cfg, javaExecutable) {
   }
 
   console.log("starting Velocity + EaglerXServer + ViaVersion + ViaBackwards...");
-  const velocity = spawn(javaExecutable, [`-Xms${cfg.velocityMemoryMin}`, `-Xmx${cfg.velocityMemoryMax}`, "-jar", "velocity.jar"], {
+  let velocity = spawn(javaExecutable, [`-Xms${cfg.velocityMemoryMin}`, `-Xmx${cfg.velocityMemoryMax}`, "-jar", "velocity.jar"], {
     cwd: PROXY, stdio: ["pipe", "pipe", "pipe"]
   });
   children.push({ child: velocity, stop: "shutdown\n", name: "velocity" });
@@ -252,6 +253,131 @@ async function bootstrapPaperIfNeeded(cfg, javaExecutable) {
     if (!stopping) {
       console.error(`[velocity] exited with code ${code}`);
       stopAll();
+    }
+  });
+
+  function printBackupList(backups) {
+    if (!backups.length) {
+      console.log("No backups found.");
+      return;
+    }
+    console.log("Backups (newest to oldest):");
+    backups.forEach((backup, index) => {
+      const date = backup.createdAt ? new Date(backup.createdAt).toLocaleString() : "Unknown date";
+      console.log(`${index + 1}. ${backup.name} - ${date}`);
+    });
+  }
+
+  async function stopChildrenForRestore() {
+    stopping = true;
+    for (const processEntry of children.slice().reverse()) {
+      if (processEntry.child.exitCode === null) {
+        try { processEntry.child.stdin.write(processEntry.stop); } catch (_) {}
+      }
+    }
+    await new Promise(resolve => setTimeout(resolve, 4000));
+    for (const processEntry of children) {
+      if (processEntry.child.exitCode === null) processEntry.child.kill("SIGTERM");
+    }
+    await new Promise(resolve => setTimeout(resolve, 500));
+  }
+
+  async function restartChildren() {
+    children.length = 0;
+
+    paper = spawn(javaExecutable, [`-Xms${cfg.paperMemoryMin}`, `-Xmx${cfg.paperMemoryMax}`, "-jar", "paper.jar", "--nogui"], {
+      cwd: BACKEND, stdio: ["pipe", "pipe", "pipe"]
+    });
+    children.push({ child: paper, stop: "stop\n", name: "paper" });
+    prefixLines(paper.stdout, "[paper] ");
+    prefixLines(paper.stderr, "[paper] ");
+
+    if (!(await waitForPort(cfg.backendPort, 120000))) {
+      throw new Error(`Paper did not open port ${cfg.backendPort} after restoring backup.`);
+    }
+
+    velocity = spawn(javaExecutable, [`-Xms${cfg.velocityMemoryMin}`, `-Xmx${cfg.velocityMemoryMax}`, "-jar", "velocity.jar"], {
+      cwd: PROXY, stdio: ["pipe", "pipe", "pipe"]
+    });
+    children.push({ child: velocity, stop: "shutdown\n", name: "velocity" });
+    prefixLines(velocity.stdout, "[velocity] ");
+    prefixLines(velocity.stderr, "[velocity] ");
+
+    if (!(await waitForPort(cfg.eaglerPort, 60000))) {
+      throw new Error("Velocity did not open its port after restoring backup.");
+    }
+
+    stopping = false;
+    paper.on("exit", code => {
+      if (!stopping) {
+        console.error(`[paper] exited with code ${code}`);
+        stopAll();
+      }
+    });
+    velocity.on("exit", code => {
+      if (!stopping) {
+        console.error(`[velocity] exited with code ${code}`);
+        stopAll();
+      }
+    });
+    console.log("Backup restored and server restarted.");
+  }
+
+  async function restoreSelectedBackup(selection) {
+    const backup = findBackup(selection);
+    if (!backup) {
+      console.log("Invalid backup selection.");
+      return;
+    }
+    try {
+      console.log(`Restoring backup: ${backup.name}`);
+      await stopChildrenForRestore();
+      restoreBackup(backup);
+      await restartChildren();
+    } catch (error) {
+      console.error(`Restore failed: ${error.message}`);
+      stopping = false;
+    }
+  }
+
+  let pendingBackupSelection = false;
+  const terminal = readline.createInterface({ input: stdin, output: stdout });
+  terminal.on("line", line => {
+    const [command, ...args] = line.trim().split(/\s+/);
+    const argument = args.join(" ").trim();
+
+    if (pendingBackupSelection) {
+      pendingBackupSelection = false;
+      void restoreSelectedBackup(argument || line.trim());
+      return;
+    }
+
+    if (command === "backup") {
+      if (!argument) {
+        console.log("Usage: backup [name]");
+        return;
+      }
+      try {
+        if (paper.exitCode === null) paper.stdin.write("save-all flush\n");
+        setTimeout(() => {
+          try {
+            const backup = createBackup(argument);
+            console.log(`Backup created: ${backup.name}`);
+            console.log(`Location: backups/${backup.folderName}`);
+          } catch (error) {
+            console.error(`Backup failed: ${error.message}`);
+          }
+        }, 1000);
+      } catch (error) {
+        console.error(`Backup failed: ${error.message}`);
+      }
+    } else if (command === "loadbackup") {
+      if (argument) {
+        void restoreSelectedBackup(argument);
+      } else {
+        printBackupList(listBackups());
+        if (listBackups().length) pendingBackupSelection = true;
+      }
     }
   });
 })().catch(err => {

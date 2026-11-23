@@ -1,0 +1,13 @@
+name: CustomSwords
+main: com.lston.customswords.CustomSwordsPlugin
+version: 1.0.0
+api-version: '1.21'
+folia-supported: true
+commands:
+  sword:
+    description: Gives a custom sword to selected players
+    usage: /sword <@a,@s,@r,etc> <sword>
+    permission: customswords.give
+permissions:
+  customswords.give:
+    default: op

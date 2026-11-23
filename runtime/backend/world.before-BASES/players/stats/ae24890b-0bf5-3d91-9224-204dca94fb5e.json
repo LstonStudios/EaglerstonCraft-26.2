@@ -1,0 +1,24 @@
+{
+  "stats": {
+    "minecraft:picked_up": {
+      "minecraft:cookie": 1
+    },
+    "minecraft:killed_by": {
+      "minecraft:player": 2
+    },
+    "minecraft:custom": {
+      "minecraft:sprint_one_cm": 2342,
+      "minecraft:time_since_rest": 1659,
+      "minecraft:walk_one_cm": 24225,
+      "minecraft:total_world_time": 6470,
+      "minecraft:leave_game": 1,
+      "minecraft:fly_one_cm": 1526,
+      "minecraft:damage_taken": 589,
+      "minecraft:play_time": 6470,
+      "minecraft:deaths": 2,
+      "minecraft:jump": 30,
+      "minecraft:time_since_death": 1657
+    }
+  },
+  "DataVersion": 4903
+}
