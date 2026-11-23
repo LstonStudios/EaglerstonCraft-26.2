@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const readline = require("readline");
-const { listBackups, findBackup, restoreBackup } = require("./backups");
+const { listBackups, findBackup, restoreBackup } = require("./scripts/backups");
 
 function printList(backups) {
   if (!backups.length) {

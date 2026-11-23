@@ -6,7 +6,7 @@ folia-supported: true
 commands:
   customtnt:
     description: Give a custom TNT item
-    usage: /customtnt <@a,@s,@r,etc> <heavy|fire|lightning|x-ray|black-hole> [amount]
+    usage: /customtnt <@a,@s,@r,etc> <heavy|fire|lightning|x-ray|black-hole|anti-tnt> [amount]
     aliases: [tnt]
     permission: customtnt.give
 permissions:

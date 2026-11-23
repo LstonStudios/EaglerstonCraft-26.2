@@ -1,0 +1,7 @@
+name: GameplayRewards
+version: 1.0.0
+main: net.lstonstudios.gameplayrewards.GameplayRewardsPlugin
+api-version: '26.2'
+author: LstonStudios
+description: Rewards survival mining and mob kills with EconomySystem money.
+depend: [EconomySystem]

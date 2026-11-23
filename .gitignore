@@ -2,6 +2,12 @@ node_modules/
 dist/
 client/index.html.br*
 runtime/**/*.jar
+!runtime/backend/plugins/CustomSwords.jar
+!runtime/backend/plugins/CustomTNT.jar
+!runtime/backend/plugins/UsernameEffects.jar
+!runtime/backend/plugins/SpawnMobs.jar
+!runtime/backend/plugins/GameplayRewards.jar
+!runtime/backend/plugins/ShopSys.jar
 runtime/versions.json
 runtime/backend/world/
 runtime/backend/logs/

@@ -9,6 +9,8 @@ const RUNTIME = path.join(ROOT, "runtime");
 const PROXY = path.join(RUNTIME, "proxy");
 const BACKEND = path.join(RUNTIME, "backend");
 const CLIENT = path.join(ROOT, "client");
+const RESOURCE_PACK_FILE = path.join(RUNTIME, "resource-pack", "swords-and-tnt.zip");
+const RESOURCE_PACK_ROUTE = "/swords-and-tnt.zip";
 
 function readConfig() {
   const p = path.join(ROOT, "config.json");
@@ -23,6 +25,7 @@ function ensureDirs() {
   fs.mkdirSync(path.join(PROXY, "plugins"), { recursive: true });
   fs.mkdirSync(BACKEND, { recursive: true });
   fs.mkdirSync(CLIENT, { recursive: true });
+  fs.mkdirSync(path.dirname(RESOURCE_PACK_FILE), { recursive: true });
 }
 
 function javaVersion(executable) {
@@ -125,6 +128,7 @@ function writeServerProperties(cfg) {
   if (!["survival", "creative", "adventure", "spectator"].includes(gameMode)) {
     throw new Error("gameMode must be survival, creative, adventure, or spectator.");
   }
+  const resourcePackSha1 = getResourcePackSha1();
   const lines = [
     "# Managed by scripts/start.js. Edit config.json for common settings.",
     "server-ip=127.0.0.1",
@@ -134,6 +138,9 @@ function writeServerProperties(cfg) {
     `motd=${String(cfg.motd).replace(/[\r\n]/g, " ")}`,
     `gamemode=${gameMode}`,
     "force-gamemode=true",
+    `resource-pack=${getResourcePackUrl(cfg)}`,
+    `resource-pack-sha1=${resourcePackSha1}`,
+    "require-resource-pack=false",
     `max-players=${Number(cfg.maxPlayers)}`,
     `view-distance=${Number(cfg.viewDistance)}`,
     `simulation-distance=${Number(cfg.simulationDistance)}`,
@@ -146,6 +153,33 @@ function writeServerProperties(cfg) {
     "sync-chunk-writes=true"
   ];
   fs.writeFileSync(p, lines.join("\n") + "\n");
+}
+
+function getResourcePackSha1() {
+  return crypto.createHash("sha1").update(fs.readFileSync(RESOURCE_PACK_FILE)).digest("hex");
+}
+
+function getResourcePackUrl(cfg) {
+  const override = String(cfg.publicResourcePackUrl || "").trim();
+  if (override) {
+    let url;
+    try { url = new URL(override); } catch {
+      throw new Error("publicResourcePackUrl must be an absolute HTTP or HTTPS URL.");
+    }
+    if (!["http:", "https:"].includes(url.protocol)) {
+      throw new Error("publicResourcePackUrl must use HTTP or HTTPS.");
+    }
+    return url.toString();
+  }
+
+  const port = Number(cfg.resourcePackPort || 8082);
+  if (!Number.isInteger(port) || port < 1 || port > 65535) {
+    throw new Error("resourcePackPort must be an integer from 1 to 65535.");
+  }
+  const codespace = process.env.CODESPACE_NAME;
+  const domain = process.env.GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN;
+  if (codespace && domain) return `https://${codespace}-${port}.${domain}${RESOURCE_PACK_ROUTE}`;
+  return `http://localhost:${port}${RESOURCE_PACK_ROUTE}`;
 }
 
 function ensureForwardingSecret() {
@@ -388,9 +422,9 @@ function portInUse(port, host = "127.0.0.1", timeoutMs = 500) {
 }
 
 module.exports = {
-  ROOT, RUNTIME, PROXY, BACKEND, CLIENT,
+  ROOT, RUNTIME, PROXY, BACKEND, CLIENT, RESOURCE_PACK_FILE, RESOURCE_PACK_ROUTE,
   readConfig, saveConfig, ensureDirs, javaMajor, javaRuntime, checkJava25,
-  patchClient, writeServerProperties, ensureForwardingSecret,
+  patchClient, writeServerProperties, getResourcePackUrl, getResourcePackSha1, ensureForwardingSecret,
   patchVelocityToml, ensureVelocityToml, patchEaglerConfigs,
   patchPaperVelocity, patchViaVersionConfig,
   walkFiles, portInUse

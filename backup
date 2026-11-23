@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const { createBackup } = require("./backups");
+const { createBackup } = require("./scripts/backups");
 
 const name = process.argv.slice(2).join(" ").trim();
 if (!name) {

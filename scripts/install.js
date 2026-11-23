@@ -8,11 +8,18 @@ const {
 } = require("./common");
 
 const USER_AGENT = "eaglercraft-26.2-easy-server/1.2 (local server setup)";
+const LOCAL_PAPER_PLUGINS = [
+  "CustomSwords.jar",
+  "CustomTNT.jar",
+  "UsernameEffects.jar",
+  "SpawnMobs.jar",
+  "GameplayRewards.jar",
+  "ShopSys.jar"
+];
 const PAPER_PLUGINS = [
   { key: "economySystem", name: "EconomySystem", projectId: "zCbXPyE8", fileName: "EconomySystem.jar" },
   { key: "serverHomes", name: "Server Homes", projectId: "ozgBn9Wz", fileName: "ServerHomes.jar" },
   { key: "easyTpa", name: "EasyTPA", projectId: "xc9IulMB", fileName: "EasyTPA.jar" },
-  { key: "easyPrefix", name: "EasyPrefixGUI", owner: "Christian34", projectSlug: "EasyPrefixGUI", fileName: "EasyPrefixGUI.jar" },
   { key: "worldEdit", name: "WorldEdit", projectId: "1u6JkXh5", fileName: "WorldEdit.jar" },
   { key: "worldGuard", name: "WorldGuard", projectId: "DKY9btbd", fileName: "WorldGuard.jar" }
 ];
@@ -182,7 +189,7 @@ async function ensureArtifact(file, resolver, versions, key) {
 }
 
 function removeReplacedPlugins() {
-  for (const fileName of ["DZEconomy.jar", "NameColor.jar"]) {
+  for (const fileName of ["DZEconomy.jar", "NameColor.jar", "CustomItems.jar", "EasyPrefixGUI.jar"]) {
     const file = path.join(BACKEND, "plugins", fileName);
     if (!fs.existsSync(file)) continue;
     fs.rmSync(file);
@@ -200,6 +207,11 @@ async function installPaperPlugins(cfg, versions) {
       versions,
       plugin.key
     );
+  }
+  for (const fileName of LOCAL_PAPER_PLUGINS) {
+    const file = path.join(BACKEND, "plugins", fileName);
+    if (!fs.existsSync(file)) throw new Error(`Missing bundled plugin JAR: ${path.relative(ROOT, file)}`);
+    console.log(`${fileName} already present`);
   }
   removeReplacedPlugins();
 }
@@ -234,6 +246,8 @@ async function main() {
   try { existing = JSON.parse(fs.readFileSync(versionsPath, "utf8")); } catch (_) {}
   delete existing.dzEconomy;
   delete existing.nameColor;
+  delete existing.easyPrefix;
+  delete existing.customItems;
   fs.writeFileSync(versionsPath, JSON.stringify({ ...existing, ...versions, installedAt: new Date().toISOString() }, null, 2) + "\n");
 
   if (pluginsOnly) {

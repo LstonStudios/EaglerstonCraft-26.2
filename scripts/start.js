@@ -7,9 +7,10 @@ const { spawn, spawnSync } = require("child_process");
 const {
   ROOT, PROXY, BACKEND, readConfig, saveConfig, ensureDirs, checkJava25,
   patchClient, writeServerProperties, patchVelocityToml, ensureVelocityToml, patchEaglerConfigs,
-  patchPaperVelocity, patchViaVersionConfig, walkFiles, portInUse
+  patchPaperVelocity, patchViaVersionConfig, walkFiles, portInUse, getResourcePackUrl
 } = require("./common");
 const { createClientServer } = require("./client-server");
+const { ensureResourcePackServer } = require("./resource-pack-server");
 const { createBackup, listBackups, findBackup, restoreBackup } = require("./backups");
 
 function prefixLines(stream, prefix) {
@@ -186,7 +187,14 @@ async function bootstrapPaperIfNeeded(cfg, javaExecutable) {
   patchViaVersionConfig(cfg);
   if (!patchPaperVelocity()) throw new Error("Paper config/paper-global.yml is missing. Start Paper once or re-extract this full ZIP.");
 
-  const clientServer = await createClientServer(cfg.clientPort);
+  const resourcePackServer = await ensureResourcePackServer(cfg.resourcePackPort);
+  let clientServer;
+  try {
+    clientServer = await createClientServer(cfg.clientPort);
+  } catch (error) {
+    if (resourcePackServer) resourcePackServer.close();
+    throw error;
+  }
   const children = [];
 
   console.log("\nstarting Paper 26.2...");
@@ -217,10 +225,12 @@ async function bootstrapPaperIfNeeded(cfg, javaExecutable) {
   console.log("\nREADY");
   console.log(`Client: http://localhost:${cfg.clientPort}`);
   console.log(`Eagler: ws://localhost:${cfg.eaglerPort}/`);
+  console.log(`Resource pack: ${getResourcePackUrl(cfg)}`);
   console.log(`Paper:  127.0.0.1:${cfg.backendPort} (internal)`);
   for (const ip of lanIps()) {
     console.log(`LAN client: http://${ip}:${cfg.clientPort}`);
     console.log(`LAN Eagler: ws://${ip}:${cfg.eaglerPort}/`);
+    console.log(`LAN resource pack: http://${ip}:${cfg.resourcePackPort}/swords-and-tnt.zip`);
   }
   console.log("\nThe server is already added to the Multiplayer screen.");
   console.log("Press Ctrl+C to stop everything cleanly.\n");
@@ -231,6 +241,7 @@ async function bootstrapPaperIfNeeded(cfg, javaExecutable) {
     stopping = true;
     console.log("\nstopping...");
     clientServer.close();
+    if (resourcePackServer) resourcePackServer.close();
     for (const p of children.slice().reverse()) {
       if (p.child.exitCode === null) {
         try { p.child.stdin.write(p.stop); } catch (_) {}

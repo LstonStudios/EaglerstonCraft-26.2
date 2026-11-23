@@ -13,11 +13,11 @@
     "start": "node scripts/start.js",
     "doctor": "node scripts/doctor.js",
     "client": "node scripts/client-only.js",
-    "backup": "node scripts/backup",
-    "loadbackup": "node scripts/loadbackup"
+    "backup": "node backup",
+    "loadbackup": "node loadbackup"
   },
   "bin": {
-    "backup": "./scripts/backup",
-    "loadbackup": "./scripts/loadbackup"
+    "backup": "./backup",
+    "loadbackup": "./loadbackup"
   }
 }

@@ -1,0 +1,26 @@
+name: ShopSys
+main: com.lston.shopsys.ShopSysPlugin
+version: 1.0.0
+api-version: '26.2'
+author: LstonStudios
+description: A paginated shop and tiered kit system backed by EconomySystem.
+depend: [EconomySystem]
+commands:
+  shop:
+    description: Opens the item shop
+    usage: /shop
+  kit:
+    description: Opens the kit menu
+    usage: /kit
+  shopedit:
+    description: Edits shop inventory
+    usage: /shopedit <category> <add|remove|list> [index|price]
+    permission: shopsys.admin
+  kitedit:
+    description: Edits kit contents
+    usage: /kitedit <kit> <add|remove|list> [index]
+    permission: shopsys.admin
+permissions:
+  shopsys.admin:
+    description: Allows editing ShopSys stock and kits
+    default: op

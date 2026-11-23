@@ -6,7 +6,7 @@ folia-supported: true
 commands:
   sword:
     description: Gives a custom sword to selected players
-    usage: /sword <@a,@s,@r,etc> <sword>
+    usage: /sword <player|selector> <lightning|explosion|pearl|fall|bad|tp|all> [amount]
     permission: customswords.give
 permissions:
   customswords.give:

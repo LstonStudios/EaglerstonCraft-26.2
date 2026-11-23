@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const {
-  ROOT, PROXY, BACKEND, readConfig, javaMajor, portInUse, walkFiles,
+  ROOT, PROXY, BACKEND, RESOURCE_PACK_FILE, readConfig, getResourcePackUrl, javaMajor, portInUse, walkFiles,
   patchVelocityToml, patchPaperVelocity, patchViaVersionConfig
 } = require("./common");
 
@@ -27,7 +27,11 @@ const {
     economy: path.join(BACKEND, "plugins", "EconomySystem.jar"),
     homes: path.join(BACKEND, "plugins", "ServerHomes.jar"),
     tpa: path.join(BACKEND, "plugins", "EasyTPA.jar"),
-    easyPrefix: path.join(BACKEND, "plugins", "EasyPrefixGUI.jar"),
+    customSwords: path.join(BACKEND, "plugins", "CustomSwords.jar"),
+    customTnt: path.join(BACKEND, "plugins", "CustomTNT.jar"),
+    usernameEffects: path.join(BACKEND, "plugins", "UsernameEffects.jar"),
+    spawnMobs: path.join(BACKEND, "plugins", "SpawnMobs.jar"),
+    gameplayRewards: path.join(BACKEND, "plugins", "GameplayRewards.jar"),
     worldEdit: path.join(BACKEND, "plugins", "WorldEdit.jar"),
     worldGuard: path.join(BACKEND, "plugins", "WorldGuard.jar")
   };
@@ -39,7 +43,13 @@ const {
   add("EconomySystem plugin", fs.existsSync(paths.economy), path.relative(ROOT, paths.economy));
   add("Server Homes plugin", fs.existsSync(paths.homes), path.relative(ROOT, paths.homes));
   add("EasyTPA plugin", fs.existsSync(paths.tpa), path.relative(ROOT, paths.tpa));
-  add("EasyPrefixGUI plugin", fs.existsSync(paths.easyPrefix), path.relative(ROOT, paths.easyPrefix));
+  add("CustomSwords plugin", fs.existsSync(paths.customSwords), path.relative(ROOT, paths.customSwords));
+  add("CustomTNT plugin", fs.existsSync(paths.customTnt), path.relative(ROOT, paths.customTnt));
+  add("UsernameEffects plugin", fs.existsSync(paths.usernameEffects), path.relative(ROOT, paths.usernameEffects));
+  add("SpawnMobs plugin", fs.existsSync(paths.spawnMobs), path.relative(ROOT, paths.spawnMobs));
+  add("GameplayRewards plugin", fs.existsSync(paths.gameplayRewards), path.relative(ROOT, paths.gameplayRewards));
+  add("Swords/TNT resource pack", fs.existsSync(RESOURCE_PACK_FILE), path.relative(ROOT, RESOURCE_PACK_FILE));
+  add("Resource pack URL", true, getResourcePackUrl(cfg));
   add("WorldEdit plugin", fs.existsSync(paths.worldEdit), path.relative(ROOT, paths.worldEdit));
   add("WorldGuard plugin", fs.existsSync(paths.worldGuard), path.relative(ROOT, paths.worldGuard));
 
@@ -65,7 +75,7 @@ const {
   const protocol = Number(cfg.backendProtocol || 776);
   add("ViaVersion backend protocol", new RegExp(`main:\\s*${protocol}(?:\\s|$)`).test(vc), `main=${protocol} (Minecraft ${cfg.minecraftVersion})`);
 
-  for (const [name, port] of [["client", cfg.clientPort], ["Eagler/Velocity", cfg.eaglerPort], ["Paper backend", cfg.backendPort]]) {
+  for (const [name, port] of [["client", cfg.clientPort], ["Eagler/Velocity", cfg.eaglerPort], ["resource pack", cfg.resourcePackPort], ["Paper backend", cfg.backendPort]]) {
     const used = await portInUse(port);
     add(`${name} port ${port} free`, !used, used ? "currently in use" : "available");
   }

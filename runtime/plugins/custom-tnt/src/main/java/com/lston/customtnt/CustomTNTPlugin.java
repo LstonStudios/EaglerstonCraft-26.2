@@ -8,38 +8,53 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
+import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.TNTPrimeEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.util.Vector;
-import org.bukkit.block.data.BlockData;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 public final class CustomTNTPlugin extends org.bukkit.plugin.java.JavaPlugin implements Listener {
-    private static final List<String> TYPES = List.of("heavy", "fire", "lightning", "x-ray", "black-hole");
+    private static final List<String> TYPES = List.of("heavy", "fire", "lightning", "x-ray", "black-hole", "anti-tnt");
+    private static final long TNT_RESTORE_WINDOW_MILLIS = 10 * 60 * 1000L;
+    private static final double TNT_RESTORE_RADIUS_SQUARED = 16 * 16;
+    private record BlockPosition(UUID worldId, int x, int y, int z) {}
+    private record TntDamageSnapshot(long capturedAt, BlockData blockData) {}
+
     private final NamespacedKey tntKey = new NamespacedKey(this, "custom_tnt");
     private final Map<Location, String> placedTnt = new ConcurrentHashMap<>();
+    private final Map<BlockPosition, TntDamageSnapshot> recentTntDamage = new LinkedHashMap<>();
     private final Random random = new Random();
+    private int customTntExplosionDepth;
 
     @Override
     public void onEnable() {
@@ -50,13 +65,13 @@ public final class CustomTNTPlugin extends org.bukkit.plugin.java.JavaPlugin imp
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!command.getName().equalsIgnoreCase("customtnt") && !command.getName().equalsIgnoreCase("tnt")) return false;
         if (args.length < 2 || args.length > 3) {
-            sender.sendMessage(Component.text("Usage: /tnt <@a,@s,@r,etc> <heavy|fire|lightning|x-ray|black-hole> [amount]", NamedTextColor.RED));
+            sender.sendMessage(Component.text("Usage: /tnt <@a,@s,@r,etc> <heavy|fire|lightning|x-ray|black-hole|anti-tnt> [amount]", NamedTextColor.RED));
             return true;
         }
 
         String type = args[1].toLowerCase(Locale.ROOT);
         if (!TYPES.contains(type)) {
-            sender.sendMessage(Component.text("Unknown TNT type: " + args[1] + ". Use heavy, fire, lightning, x-ray, or black-hole.", NamedTextColor.RED));
+            sender.sendMessage(Component.text("Unknown TNT type: " + args[1] + ". Use heavy, fire, lightning, x-ray, black-hole, or anti-tnt.", NamedTextColor.RED));
             return true;
         }
 
@@ -106,11 +121,20 @@ public final class CustomTNTPlugin extends org.bukkit.plugin.java.JavaPlugin imp
             case "fire" -> NamedTextColor.GOLD;
             case "lightning" -> NamedTextColor.AQUA;
             case "x-ray" -> NamedTextColor.GREEN;
+            case "anti-tnt" -> NamedTextColor.WHITE;
             default -> NamedTextColor.DARK_PURPLE;
         };
         meta.displayName(Component.text(type.substring(0, 1).toUpperCase(Locale.ROOT) + type.substring(1) + " TNT", color));
         meta.lore(List.of(Component.text(typeDescription(type), NamedTextColor.GRAY)));
         meta.getPersistentDataContainer().set(tntKey, PersistentDataType.STRING, type);
+        meta.setItemModel(new NamespacedKey("lston", switch (type) {
+            case "heavy" -> "boss_tnt";
+            case "fire" -> "fire_tnt";
+            case "lightning" -> "firework_tnt";
+            case "x-ray" -> "xray_tnt";
+            case "anti-tnt" -> "anti_tnt";
+            default -> "black_hole_tnt";
+        }));
         item.setItemMeta(meta);
         return item;
     }
@@ -121,12 +145,16 @@ public final class CustomTNTPlugin extends org.bukkit.plugin.java.JavaPlugin imp
             case "fire" -> "Explosion that sets nearby blocks on fire";
             case "lightning" -> "Many lightning bolts strike around the explosion";
             case "x-ray" -> "Clears a 3x3x3 area except ores and unbreakable blocks";
+            case "anti-tnt" -> "Restores blocks destroyed by TNT nearby in the last 10 minutes";
             default -> "Creates a black-hole that lasts 6 seconds";
         };
     }
 
     @EventHandler
     public void onTntPlace(BlockPlaceEvent event) {
+        BlockPosition position = blockPosition(event.getBlockPlaced());
+        recentTntDamage.remove(position);
+
         ItemMeta meta = event.getItemInHand().getItemMeta();
         if (meta == null) return;
         String type = meta.getPersistentDataContainer().get(tntKey, PersistentDataType.STRING);
@@ -136,6 +164,23 @@ public final class CustomTNTPlugin extends org.bukkit.plugin.java.JavaPlugin imp
     @EventHandler
     public void onTntBreak(BlockBreakEvent event) {
         placedTnt.remove(event.getBlock().getLocation());
+        recentTntDamage.remove(blockPosition(event.getBlock()));
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onPlayerIgnite(BlockIgniteEvent event) {
+        if (event.getPlayer() != null) recentTntDamage.remove(blockPosition(event.getBlock()));
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void onTntExplosion(EntityExplodeEvent event) {
+        if (customTntExplosionDepth == 0 && !(event.getEntity() instanceof TNTPrimed)) return;
+
+        long now = System.currentTimeMillis();
+        pruneExpiredTntDamage(now);
+        for (Block block : event.blockList()) {
+            rememberTntDamage(block, now);
+        }
     }
 
     @EventHandler
@@ -150,10 +195,10 @@ public final class CustomTNTPlugin extends org.bukkit.plugin.java.JavaPlugin imp
 
         Entity primer = event.getPrimingEntity();
         switch (type) {
-            case "heavy" -> block.getWorld().createExplosion(primer, location, 7.0F, false, true);
-            case "fire" -> block.getWorld().createExplosion(primer, location, 4.0F, true, true);
+            case "heavy" -> createTntExplosion(primer, location, 7.0F, false, true);
+            case "fire" -> createTntExplosion(primer, location, 4.0F, true, true);
             case "lightning" -> {
-                block.getWorld().createExplosion(primer, location, 4.0F, false, false);
+                createTntExplosion(primer, location, 4.0F, false, false);
                 for (int i = 0; i < 12; i++) {
                     Location bolt = location.clone().add(
                         random.nextInt(7) - 3,
@@ -166,16 +211,75 @@ public final class CustomTNTPlugin extends org.bukkit.plugin.java.JavaPlugin imp
             }
             case "x-ray" -> explodeXrayCube(location);
             case "black-hole" -> startBlackHole(location, primer);
+            case "anti-tnt" -> restoreRecentTntDamage(location);
         }
+    }
+
+    private void createTntExplosion(Entity source, Location location, float power, boolean setFire, boolean breakBlocks) {
+        customTntExplosionDepth++;
+        try {
+            location.getWorld().createExplosion(source, location, power, setFire, breakBlocks);
+        } finally {
+            customTntExplosionDepth--;
+        }
+    }
+
+    private void rememberTntDamage(Block block, long capturedAt) {
+        if (block.getType().isAir()) return;
+        BlockPosition position = blockPosition(block);
+        recentTntDamage.putIfAbsent(position, new TntDamageSnapshot(capturedAt, block.getBlockData().clone()));
+    }
+
+    private BlockPosition blockPosition(Block block) {
+        return new BlockPosition(block.getWorld().getUID(), block.getX(), block.getY(), block.getZ());
+    }
+
+    private void pruneExpiredTntDamage(long now) {
+        long oldestValid = now - TNT_RESTORE_WINDOW_MILLIS;
+        recentTntDamage.entrySet().removeIf(entry -> entry.getValue().capturedAt() < oldestValid);
+    }
+
+    private void restoreRecentTntDamage(Location center) {
+        long now = System.currentTimeMillis();
+        pruneExpiredTntDamage(now);
+        World world = center.getWorld();
+        UUID worldId = world.getUID();
+        int restored = 0;
+        Iterator<Map.Entry<BlockPosition, TntDamageSnapshot>> iterator = recentTntDamage.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<BlockPosition, TntDamageSnapshot> entry = iterator.next();
+            BlockPosition position = entry.getKey();
+            if (!position.worldId().equals(worldId)) continue;
+
+            double dx = position.x() + 0.5 - center.getX();
+            double dy = position.y() + 0.5 - center.getY();
+            double dz = position.z() + 0.5 - center.getZ();
+            if (dx * dx + dy * dy + dz * dz > TNT_RESTORE_RADIUS_SQUARED) continue;
+
+            Block block = world.getBlockAt(position.x(), position.y(), position.z());
+            Material currentType = block.getType();
+            if (!currentType.isAir() && currentType != Material.FIRE && currentType != Material.SOUL_FIRE) {
+                iterator.remove();
+                continue;
+            }
+
+            block.setBlockData(entry.getValue().blockData().clone(), false);
+            iterator.remove();
+            restored++;
+        }
+        world.spawnParticle(Particle.PORTAL, center, Math.min(100, Math.max(12, restored)), 1.5, 1.5, 1.5, 0.1);
     }
 
     private void explodeXrayCube(Location center) {
         center.getWorld().spawnParticle(Particle.EXPLOSION, center, 8, 1.0, 1.0, 1.0, 0.0);
+        long now = System.currentTimeMillis();
+        pruneExpiredTntDamage(now);
         for (int dx = -1; dx <= 1; dx++) {
             for (int dy = -1; dy <= 1; dy++) {
                 for (int dz = -1; dz <= 1; dz++) {
                     Block block = center.clone().add(dx, dy, dz).getBlock();
                     if (isProtectedXrayBlock(block.getType())) continue;
+                    rememberTntDamage(block, now);
                     block.setType(Material.AIR, false);
                 }
             }

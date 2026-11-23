@@ -1,0 +1,1113 @@
+kitCooldownHours: 24
+shop:
+  categories:
+    blocks:
+      items:
+      - price: 16.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:stone
+          count: 64
+          schema_version: 1
+      - price: 12.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:cobblestone
+          count: 64
+          schema_version: 1
+      - price: 10.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:dirt
+          count: 64
+          schema_version: 1
+      - price: 24.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:grass_block
+          count: 32
+          schema_version: 1
+      - price: 20.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:oak_planks
+          count: 64
+          schema_version: 1
+      - price: 20.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:spruce_planks
+          count: 64
+          schema_version: 1
+      - price: 20.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:birch_planks
+          count: 64
+          schema_version: 1
+      - price: 20.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:jungle_planks
+          count: 64
+          schema_version: 1
+      - price: 20.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:acacia_planks
+          count: 64
+          schema_version: 1
+      - price: 20.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:dark_oak_planks
+          count: 64
+          schema_version: 1
+      - price: 20.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:mangrove_planks
+          count: 64
+          schema_version: 1
+      - price: 20.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:cherry_planks
+          count: 64
+          schema_version: 1
+      - price: 30.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:glass
+          count: 32
+          schema_version: 1
+      - price: 18.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:sand
+          count: 64
+          schema_version: 1
+      - price: 18.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:gravel
+          count: 64
+          schema_version: 1
+      - price: 40.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:bricks
+          count: 32
+          schema_version: 1
+      - price: 120.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:obsidian
+          count: 16
+          schema_version: 1
+      - price: 100.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:tnt
+          count: 8
+          schema_version: 1
+      - price: 36.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:stone_bricks
+          count: 32
+          schema_version: 1
+      - price: 28.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:clay
+          count: 32
+          schema_version: 1
+    ores:
+      items:
+      - price: 24.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:coal
+          count: 32
+          schema_version: 1
+      - price: 24.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:raw_copper
+          count: 16
+          schema_version: 1
+      - price: 36.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:copper_ingot
+          count: 16
+          schema_version: 1
+      - price: 48.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:raw_iron
+          count: 16
+          schema_version: 1
+      - price: 64.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:iron_ingot
+          count: 16
+          schema_version: 1
+      - price: 72.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:raw_gold
+          count: 16
+          schema_version: 1
+      - price: 96.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:gold_ingot
+          count: 16
+          schema_version: 1
+      - price: 48.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:redstone
+          count: 32
+          schema_version: 1
+      - price: 80.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:lapis_lazuli
+          count: 16
+          schema_version: 1
+      - price: 80.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:quartz
+          count: 16
+          schema_version: 1
+      - price: 100.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:amethyst_shard
+          count: 16
+          schema_version: 1
+      - price: 160.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:emerald
+          count: 4
+          schema_version: 1
+      - price: 240.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:diamond
+          count: 2
+          schema_version: 1
+      - price: 500.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:ancient_debris
+          count: 1
+          schema_version: 1
+      - price: 1500.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:netherite_ingot
+          count: 1
+          schema_version: 1
+      - price: 24.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:string
+          count: 16
+          schema_version: 1
+      - price: 36.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:leather
+          count: 16
+          schema_version: 1
+      - price: 24.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:bone
+          count: 16
+          schema_version: 1
+      - price: 42.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:gunpowder
+          count: 16
+          schema_version: 1
+      - price: 100.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:ender_pearl
+          count: 4
+          schema_version: 1
+    food:
+      items:
+      - price: 24.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:bread
+          count: 16
+          schema_version: 1
+      - price: 64.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:cooked_beef
+          count: 16
+          schema_version: 1
+      - price: 64.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:cooked_porkchop
+          count: 16
+          schema_version: 1
+      - price: 48.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:cooked_chicken
+          count: 16
+          schema_version: 1
+      - price: 40.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:cooked_cod
+          count: 16
+          schema_version: 1
+      - price: 32.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:baked_potato
+          count: 16
+          schema_version: 1
+      - price: 80.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:golden_carrot
+          count: 8
+          schema_version: 1
+      - price: 150.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:golden_apple
+          count: 2
+          schema_version: 1
+      - price: 24.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:carrot
+          count: 16
+          schema_version: 1
+      - price: 24.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:potato
+          count: 16
+          schema_version: 1
+      - price: 24.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:wheat
+          count: 16
+          schema_version: 1
+      - price: 28.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:sugar_cane
+          count: 16
+          schema_version: 1
+      - price: 32.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:pumpkin
+          count: 8
+          schema_version: 1
+      - price: 32.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:melon
+          count: 8
+          schema_version: 1
+      - price: 32.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:apple
+          count: 8
+          schema_version: 1
+      - price: 20.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:egg
+          count: 16
+          schema_version: 1
+      - price: 30.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:milk_bucket
+          count: 1
+          schema_version: 1
+      - price: 48.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:honey_bottle
+          count: 4
+          schema_version: 1
+      - price: 80.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:cake
+          count: 1
+          schema_version: 1
+      - price: 32.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:cookie
+          count: 16
+          schema_version: 1
+    combat:
+      items:
+      - price: 12.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:wooden_sword
+          count: 1
+          schema_version: 1
+      - price: 28.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:stone_sword
+          count: 1
+          schema_version: 1
+      - price: 90.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:iron_sword
+          count: 1
+          schema_version: 1
+      - price: 70.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:golden_sword
+          count: 1
+          schema_version: 1
+      - price: 450.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:diamond_sword
+          count: 1
+          schema_version: 1
+      - price: 80.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:bow
+          count: 1
+          schema_version: 1
+      - price: 120.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:crossbow
+          count: 1
+          schema_version: 1
+      - price: 24.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:arrow
+          count: 32
+          schema_version: 1
+      - price: 65.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:shield
+          count: 1
+          schema_version: 1
+      - price: 40.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:leather_chestplate
+          count: 1
+          schema_version: 1
+      - price: 180.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:iron_chestplate
+          count: 1
+          schema_version: 1
+      - price: 750.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:diamond_chestplate
+          count: 1
+          schema_version: 1
+      - price: 75.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:golden_apple
+          count: 1
+          schema_version: 1
+      - price: 1000.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:totem_of_undying
+          count: 1
+          schema_version: 1
+      - price: 600.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:trident
+          count: 1
+          schema_version: 1
+      - price: 12.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:snowball
+          count: 16
+          schema_version: 1
+      - price: 36.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:firework_rocket
+          count: 16
+          schema_version: 1
+      - price: 120.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:turtle_helmet
+          count: 1
+          schema_version: 1
+      - price: 100.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:ender_pearl
+          count: 4
+          schema_version: 1
+      - price: 60.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:wind_charge
+          count: 8
+          schema_version: 1
+    tools:
+      items:
+      - price: 12.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:wooden_pickaxe
+          count: 1
+          schema_version: 1
+      - price: 28.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:stone_pickaxe
+          count: 1
+          schema_version: 1
+      - price: 90.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:iron_pickaxe
+          count: 1
+          schema_version: 1
+      - price: 70.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:golden_pickaxe
+          count: 1
+          schema_version: 1
+      - price: 450.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:diamond_pickaxe
+          count: 1
+          schema_version: 1
+      - price: 85.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:iron_axe
+          count: 1
+          schema_version: 1
+      - price: 45.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:iron_shovel
+          count: 1
+          schema_version: 1
+      - price: 55.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:iron_hoe
+          count: 1
+          schema_version: 1
+      - price: 45.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:shears
+          count: 1
+          schema_version: 1
+      - price: 45.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:flint_and_steel
+          count: 1
+          schema_version: 1
+      - price: 50.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:water_bucket
+          count: 1
+          schema_version: 1
+      - price: 90.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:lava_bucket
+          count: 1
+          schema_version: 1
+      - price: 20.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:torch
+          count: 32
+          schema_version: 1
+      - price: 10.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:crafting_table
+          count: 1
+          schema_version: 1
+      - price: 20.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:furnace
+          count: 1
+          schema_version: 1
+      - price: 180.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:anvil
+          count: 1
+          schema_version: 1
+      - price: 300.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:ender_chest
+          count: 1
+          schema_version: 1
+      - price: 24.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:chest
+          count: 4
+          schema_version: 1
+      - price: 30.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:white_bed
+          count: 1
+          schema_version: 1
+      - price: 40.0
+        item:
+          ==: org.bukkit.inventory.ItemStack
+          DataVersion: 4903
+          id: minecraft:compass
+          count: 1
+          schema_version: 1
+kits:
+  wooden:
+    items:
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:wooden_sword
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:wooden_pickaxe
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:wooden_axe
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:wooden_shovel
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:leather_helmet
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:leather_chestplate
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:leather_leggings
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:leather_boots
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:shield
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:bread
+      count: 16
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:torch
+      count: 16
+      schema_version: 1
+  stone:
+    items:
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:stone_sword
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:stone_pickaxe
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:stone_axe
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:stone_shovel
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:leather_helmet
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:leather_chestplate
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:leather_leggings
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:leather_boots
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:shield
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:bread
+      count: 16
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:torch
+      count: 16
+      schema_version: 1
+  copper:
+    items:
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:copper_sword
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:copper_pickaxe
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:copper_axe
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:copper_shovel
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:chainmail_helmet
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:chainmail_chestplate
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:chainmail_leggings
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:chainmail_boots
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:shield
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:bread
+      count: 16
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:torch
+      count: 16
+      schema_version: 1
+  iron:
+    items:
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:iron_sword
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:iron_pickaxe
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:iron_axe
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:iron_shovel
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:iron_helmet
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:iron_chestplate
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:iron_leggings
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:iron_boots
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:shield
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:bread
+      count: 16
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:torch
+      count: 16
+      schema_version: 1
+  golden:
+    items:
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:golden_sword
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:golden_pickaxe
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:golden_axe
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:golden_shovel
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:golden_helmet
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:golden_chestplate
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:golden_leggings
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:golden_boots
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:shield
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:bread
+      count: 16
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:torch
+      count: 16
+      schema_version: 1
+  diamond:
+    items:
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:diamond_sword
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:diamond_pickaxe
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:diamond_axe
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:diamond_shovel
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:diamond_helmet
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:diamond_chestplate
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:diamond_leggings
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:diamond_boots
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:shield
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:bread
+      count: 16
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:torch
+      count: 16
+      schema_version: 1
+  netherite:
+    items:
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:netherite_sword
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:netherite_pickaxe
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:netherite_axe
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:netherite_shovel
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:netherite_helmet
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:netherite_chestplate
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:netherite_leggings
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:netherite_boots
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:shield
+      count: 1
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:bread
+      count: 16
+      schema_version: 1
+    - ==: org.bukkit.inventory.ItemStack
+      DataVersion: 4903
+      id: minecraft:torch
+      count: 16
+      schema_version: 1
